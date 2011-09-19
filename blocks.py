@@ -130,7 +130,8 @@ class Person(AnimatedBlock):
 		self.health -= damage
 		# Check if Dead
 		if self.health <= 0:
-			self.setSprite(deathSprite)
+			if deathSprite != None:
+				self.setSprite(deathSprite)
 			self.kill()
 			
 class Zombie(Person):

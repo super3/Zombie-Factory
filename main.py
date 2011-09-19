@@ -46,7 +46,7 @@ all_sprites = pygame.sprite.RenderPlain()
 zombie_sprites = pygame.sprite.RenderPlain()
 
 # Load Images and Create Animated Sprite Objects
-zombie_sprite = load_sliced_sprites(23, 34, "img/charzombie.png")
+zombie_sprite = load_sliced_sprites(23, 34, "img/char/zombie.png")
 zombie_die_sprite = load_sliced_sprites(35, 34, "img/char/zombie-die.png")
 police_fire = load_sliced_sprites(35, 34, "img/char/police-fire.png")
 
@@ -151,7 +151,7 @@ while done == False:
 	if len(police_hit_list) > 0:
 		for i in police_hit_list:
 			i.stop()
-			police.hit(5, null)
+			police.hit(5, None)
 	else:
 		for i in zombie_sprites:
 			i.go()
