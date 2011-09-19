@@ -28,11 +28,11 @@ sizeX = 800
 sizeY = 200
 size = [sizeX, sizeY]
 # Load Icon
-seticon('img/icon.png')
+seticon('img/sys/icon.png')
 screen = pygame.display.set_mode(size)
 
 # Set Screen's Title and Icon
-pygame.display.set_caption("Zombies on Conveyors")
+pygame.display.set_caption("Zombie Factory")
 
 # Sentinel for Game Loop
 done = False
@@ -46,15 +46,15 @@ all_sprites = pygame.sprite.RenderPlain()
 zombie_sprites = pygame.sprite.RenderPlain()
 
 # Load Images and Create Animated Sprite Objects
-zombie_sprite = load_sliced_sprites(23, 34, "img/zombie.png")
-zombie_die_sprite = load_sliced_sprites(35, 34, "img/zombie-die.png")
-police_fire = load_sliced_sprites(35, 34, "img/police-fire.png")
+zombie_sprite = load_sliced_sprites(23, 34, "img/charzombie.png")
+zombie_die_sprite = load_sliced_sprites(35, 34, "img/char/zombie-die.png")
+police_fire = load_sliced_sprites(35, 34, "img/char/police-fire.png")
 
 # Load Background
-background_image = pygame.image.load("img/factory-background.png").convert()
+background_image = pygame.image.load("img/level/factory-background.png").convert()
 
 # Load Crosshairs
-crosshair = Block(11, 11, "img/crosshair.png")
+crosshair = Block(11, 11, "img/sys/crosshair.png")
 all_sprites.add(crosshair)
 
 # Load Police
