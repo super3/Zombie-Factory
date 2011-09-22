@@ -123,6 +123,7 @@ class Person(AnimatedBlock):
 	def hit(self, damage, deathSprite):
 		# Take Away Damage From Health
 		self.health -= damage
+		print(self.health)
 		# Check if Dead
 		if self.health <= 0:
 			if deathSprite != None:
@@ -130,12 +131,25 @@ class Person(AnimatedBlock):
 			self.kill()
 			
 class Zombie(Person):
-	def __init__(self, images, x, y, fps = 6):
+	def __init__(self, images, x, y, dSprite, aSprite, fps = 6):
 		super(Zombie, self).__init__(images, x, y, fps)
 		# Set Stats
 		self.health = 5
 		self.speed = 2
 		self.defaultSpeed = self.speed
+		# Sprites
+		self.defaultSprite = dSprite
+		self.attackSprite = aSprite
+		
+	# Change to attack sprite on stop, regular on go
+	def stop(self):
+		super(Zombie, self).stop()
+		if self.alive == True:
+			self.setSprite(self.attackSprite)
+	def go(self):
+		super(Zombie, self).go()
+		if self.alive == True:
+			self.setSprite(self.defaultSprite)
 		
 	# Show Zombie
 	def render(self, screen):

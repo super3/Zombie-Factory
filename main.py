@@ -52,6 +52,7 @@ zombie_sprites = pygame.sprite.RenderPlain()
 
 # Load Images and Create Animated Sprite Objects
 zombie_sprite = helper.load_sliced_sprites(23, 34, "img/char/zombie.png")
+zombie_attack_sprite = helper.load_sliced_sprites(30, 34, "img/char/zombie-attack.png")
 zombie_die_sprite = helper.load_sliced_sprites(35, 34, "img/char/zombie-die.png")
 police_fire = helper.load_sliced_sprites(35, 34, "img/char/police-fire.png")
 
@@ -69,7 +70,7 @@ all_sprites.add(police)
 # Load a Few Zombies
 for i in range(3):
 	zombiesAlive += 1
-	a_zombie = Zombie(zombie_sprite, sizeX+(i*30), sizeY-34)
+	a_zombie = Zombie(zombie_sprite, sizeX+(i*30), sizeY-34, zombie_sprite, zombie_attack_sprite)
 	all_sprites.add(a_zombie)
 	zombie_sprites.add(a_zombie)
 	
@@ -93,7 +94,7 @@ while done == False:
 		elif event.type == pygame.KEYDOWN:
 			if event.key == pygame.K_z:
 				zombiesAlive += 1
-				a_zombie = Zombie(zombie_sprite, sizeX+30, sizeY-34)
+				a_zombie = Zombie(zombie_sprite, sizeX+30, sizeY-34, zombie_sprite, zombie_attack_sprite)
 				all_sprites.add(a_zombie)
 				zombie_sprites.add(a_zombie)
 		# Fire Weapon
@@ -156,14 +157,16 @@ while done == False:
 	# Check the list of collisions with bullet and zombie
 	if len(bullet_hit_list) > 0:
 		for i in bullet_hit_list:
-			i.hit(5, zombie_die_sprite)
-			break
+			if i.alive == True:
+				i.hit(5, zombie_die_sprite)
+				break
 	
 	# Check the list of collisions with the zombies and the player
 	if len(police_hit_list) > 0:
 		for i in police_hit_list:
-			i.stop()
-			police.hit(5, None)
+			if i.alive == True:
+				i.stop()
+				police.hit(0.1, None)
 	else:
 		for i in zombie_sprites:
 			i.go()
