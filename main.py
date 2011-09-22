@@ -6,7 +6,7 @@ import pygame
 import os
 
 # My Imports
-from helper import *
+import helper
 from blocks import *
 
 # Start PyGame
@@ -22,13 +22,18 @@ red = [255, 0, 0]
 # Define Game Colors
 darkgrey = [84, 87, 106]
 lightgrey = [165, 166, 174]
+
+# Game Vars
+zombiesKilled = 0
+zombiesAlive = 0
+zombiesMissed = 0
 		
 # Set and Display Screen
 sizeX = 800
 sizeY = 200
 size = [sizeX, sizeY]
 # Load Icon
-seticon('img/sys/icon.png')
+helper.seticon('img/sys/icon.png')
 screen = pygame.display.set_mode(size)
 
 # Set Screen's Title and Icon
@@ -46,9 +51,9 @@ all_sprites = pygame.sprite.RenderPlain()
 zombie_sprites = pygame.sprite.RenderPlain()
 
 # Load Images and Create Animated Sprite Objects
-zombie_sprite = load_sliced_sprites(23, 34, "img/char/zombie.png")
-zombie_die_sprite = load_sliced_sprites(35, 34, "img/char/zombie-die.png")
-police_fire = load_sliced_sprites(35, 34, "img/char/police-fire.png")
+zombie_sprite = helper.load_sliced_sprites(23, 34, "img/char/zombie.png")
+zombie_die_sprite = helper.load_sliced_sprites(35, 34, "img/char/zombie-die.png")
+police_fire = helper.load_sliced_sprites(35, 34, "img/char/police-fire.png")
 
 # Load Background
 background_image = pygame.image.load("img/level/factory-background.png").convert()
@@ -63,6 +68,7 @@ all_sprites.add(police)
 
 # Load a Few Zombies
 for i in range(3):
+	zombiesAlive += 1
 	a_zombie = Zombie(zombie_sprite, sizeX+(i*30), sizeY-34)
 	all_sprites.add(a_zombie)
 	zombie_sprites.add(a_zombie)
@@ -86,7 +92,7 @@ while done == False:
 		# Spawn a Zombie
 		elif event.type == pygame.KEYDOWN:
 			if event.key == pygame.K_z:
-				#print("Zombie Spawned!")
+				zombiesAlive += 1
 				a_zombie = Zombie(zombie_sprite, sizeX+30, sizeY-34)
 				all_sprites.add(a_zombie)
 				zombie_sprites.add(a_zombie)
@@ -128,6 +134,12 @@ while done == False:
 	# Display Sprites
 	for i in all_sprites:
 		i.render(screen)
+		
+	# Display Laser
+	if police.laser == True and police.direction == LEFT:
+		pygame.draw.line(screen, red, [police.rect.x+2, police.rect.y+12], [crosshair.rect.x+5, crosshair.rect.y+5], 1)
+	elif police.laser == True:
+		pygame.draw.line(screen, red, [police.rect.x+32, police.rect.y+12], [crosshair.rect.x+5, crosshair.rect.y+5], 1)
 	
 	# Render Crosshair To Keep Above Other Sprites
 	crosshair.render(screen)

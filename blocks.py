@@ -20,11 +20,6 @@ lightgrey = [165, 166, 174]
 RIGHT = 1
 LEFT = 2
 
-# Game Vars
-zombiesKilled = 0
-zombiesAlive = 0
-zombiesMissed = 0
-
 # Basic Sprite Class (Used for Crosshair)
 class Block(pygame.sprite.Sprite):
 	def __init__(self, locX, locY, img):
@@ -167,6 +162,10 @@ class Police(Person):
 		self.health = 100
 		self.speed = 3
 		self.direction = RIGHT
+		# Set Specials 
+		self.laser = True
+		# Gun Stuff
+		self.ammo =  12
 		
 	def render(self, screen):
 		# Update Frame and Display Sprite
