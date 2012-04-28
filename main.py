@@ -23,7 +23,7 @@ red = [255, 0, 0]
 darkgrey = [84, 87, 106]
 lightgrey = [165, 166, 174]
 
-# Game Vars
+# Game Statistics Vars
 zombiesKilled = 0
 zombiesAlive = 0
 zombiesMissed = 0
@@ -32,8 +32,7 @@ zombiesMissed = 0
 sizeX = 800
 sizeY = 200
 size = [sizeX, sizeY]
-# Load Icon
-helper.seticon('img/sys/icon.png')
+helper.seticon('img/sys/icon.png') # Load Icon 
 screen = pygame.display.set_mode(size)
 
 # Set Screen's Title and Icon
