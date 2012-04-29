@@ -1,9 +1,13 @@
 Zombie Factory
 =============
-Project Developer: Super3 (super3.org)
-Project Web Page: https://github.com/super3/Zombie-Factory
 
 Info
+-------
+* Project Developer: Super3 (super3.org)
+* Project Github: https://github.com/super3/Zombie-Factory
+* Project Web Page: http://super3.org/zombie-factory
+
+About
 -------
 Thanks for taking a look at the Zombie Factory Project. The Zombie Factory is a simple
 zombie shooter developed with PyGame (http://pygame.org) and Python (http://python.org).
