@@ -16,6 +16,9 @@
 import pygame
 import os 
 
+# My Imports
+from actor import *
+
 # Print Debug Method
 def printDebug(txt):
 	"""
@@ -88,6 +91,11 @@ class World:
 		else:
 			self.background_image = pygame.image.load(img).convert()
 			printDebug("Background Image Set.")
+			
+	def addSprite(self):
+		"""Add a Sample Sprite to the World"""
+		player = Civilian(50, 170, "../view/char/actor-player.png")
+		self.sprites.add(player)
 	
 	def run(self):
 		# Main Game Loop
@@ -108,6 +116,10 @@ class World:
 			# Try to Draw Background at (0,0)
 			if self.background_image != None: 
 				self.screen.blit( self.background_image, [0,0])
+				
+			# Draw all Sprites
+			for sprite in self.sprites:
+				sprite.render(self.screen)
 			
 			# Update Display
 			pygame.display.flip()
@@ -124,5 +136,7 @@ if __name__ == "__main__":
 	# Window Settings
 	world1.setTitle("Hello World")
 	world1.loadBackground("../view/level/factory-background.png")
+	# Add Sprites
+	world1.addSprite()
 	# Run World
 	world1.run()
