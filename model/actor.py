@@ -31,6 +31,7 @@ class Block(pygame.sprite.Sprite):
 	"""
 	Basic PyGame Sprite Class.
 	Pretty much every sprite should be derived from this.
+	Static/immovable objects should use this class directly.
 	"""
 	def __init__(self, locX, locY, img):
 		# Call the parent class (Sprite) constructor 
@@ -47,42 +48,58 @@ class Block(pygame.sprite.Sprite):
 		screen.blit(self.image, [self.rect.x, self.rect.y])
 
 class Actor(Block):
+	"""
+	Actor class is the parent class to all of the ingame characters.
+	It contains basic movement data, and functions. 
+	
+	Data members:
+	speed -- The speed in pixels that the Actor moves forward with each screen draw.
+	isMoving -- Is the Actor allowed to move?
+	direction -- Can be LEFT(1) or RIGHT(2). Uses global constants to make it more readable.
+	"""
 	def __init__(self, locX, locY, img):
 		# Call parent class (Block) contructor
 		super(Block, self).__init__(locX, locY, img)
 		
 		# Data members
 		self.speed = 1
-		self.defaultSpeed = self.speed
+		self.isMoving = True
 		self.direction = RIGHT
 		
-		# Movement Functions
-		def moveLeft(self):
-			if self.rect.x >= 0:
-				self.rect.x -= self.speed
-		def moveRight(self, screenX):
-			if self.rect.x <= screenX - self.image.get_width(): 
-				self.rect.x += self.speed
-		def stop(self):
-			self.speed = 0
-		def go(self):
-			self.speed = self.defaultSpeed
-		def flip(self):
-			self.image = pygame.transform.flip(self.image, 1, 0)
-			for i in range(len(self._images)):
-				self._images[i] = pygame.transform.flip(self._images[i], 1, 0)
-			if self.direction == LEFT:
-				self.direction = RIGHT
-			else:
-				self.direction = LEFT
-		
-		def getDirection(self):
-			return self.direction
+	# Movement Functions
+	def moveLeft(self):
+		if self.rect.x >= 0 and self.isMoving:
+			self.rect.x -= self.speed
+	def moveRight(self, screenX):
+		if self.rect.x <= screenX - self.image.get_width() and self.isMoving: 
+			self.rect.x += self.speed
+	def stop(self):
+		self.isMoving = False
+	def go(self):
+		self.isMoving = True
+	def flip(self):
+		self.image = pygame.transform.flip(self.image, 1, 0)
+		if self.direction == LEFT:
+			self.direction = RIGHT
+		else:
+			self.direction = LEFT
 			
 class Civilian(Actor):
 	def __init__(self, locX, locY, img):
 		# Call parent class (Actor) contructor
 		super(Actor, self).__init__(locX, locY, img)
+		
+		# Data members
+		self.speed = 1
+		self.isMoving = True
+		self.direction = LEFT
+		
 	def render(self, screen):
+		# Update Location
 		self.rect.x += self.speed
+		if self.direction == LEFT:
+			self.moveLeft()
+		else:
+			self.moveRight(800)
+		# Render as Normal
 		super(Actor, self).render(screen)
