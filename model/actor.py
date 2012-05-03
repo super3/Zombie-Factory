@@ -49,8 +49,8 @@ class Block(pygame.sprite.Sprite):
 
 class Actor(Block):
 	"""
-	Actor class is the parent class to all of the ingame characters.
-	It contains basic movement data, and functions. 
+	Actor class is the parent class to all of the in-game characters.
+	It contains basic movement data and functions. 
 	
 	Data members:
 	speed -- The speed in pixels that the Actor moves forward with each screen draw.
@@ -61,22 +61,26 @@ class Actor(Block):
 		# Call parent class (Block) contructor
 		super(Block, self).__init__(locX, locY, img)
 		
-		# Data members
+		# "Abstract" Data members
 		self.speed = 1
 		self.isMoving = True
 		self.direction = RIGHT
 		
-	# Movement Functions
+	# Movement Methods
 	def moveLeft(self):
-		if self.rect.x >= 0 and self.isMoving:
+		# If Actor is After the Left Window Bound and Is Allowed to Move
+		if self.rect.x > 0 and self.isMoving:
 			self.rect.x -= self.speed
 	def moveRight(self, screenX):
-		if self.rect.x <= screenX - self.image.get_width() and self.isMoving: 
+		# If Actor is Before the Right Window Bound and Is Allowed to Move
+		if self.rect.x < screenX - self.image.get_width() and self.isMoving: 
 			self.rect.x += self.speed
 	def stop(self):
 		self.isMoving = False
 	def go(self):
 		self.isMoving = True
+		
+	# Image Method
 	def flip(self):
 		self.image = pygame.transform.flip(self.image, 1, 0)
 		if self.direction == LEFT:
@@ -84,22 +88,76 @@ class Actor(Block):
 		else:
 			self.direction = LEFT
 			
+	# Accessors
+	def getSpeed(self):
+		return self.speed
+	def getIsMoving(self):
+		return self.isMoving
+	def getDirection(self):
+		return self.direction
+	
+	# Mutators
+	def setSpeed(self, speed):
+		self.speed = speed
+	def setIsMoving(self, moving):
+		self.isMoving = moving
+	def setDirection(self, direction):
+		self.direction = direction
+			
 class Civilian(Actor):
-	def __init__(self, locX, locY, img):
+	"""
+	Civilian class is the standard NPC class. 
+	
+	A civilian object can take on many clothes colors that is specified in the constructor
+	These colors include: black, blue, green, grey, organge, pink, red, and yellow
+	The color can not and must not be changed after creation
+	
+	Note: In much later versions of this engine, this will become obsolete as civilian clothes
+	colors will be generated from a transparent sprite, rather than using multiple sprites with
+	diffrent colored clothes
+	"""
+	def __init__(self, locX, locY, color):	
+		# Check to see if color is a valid sprite color
+		# This is dependent on the sprites in /view/char/ files named actor-civilian-[color].png
+		# Please update this list when new sprites are available
+		currentColors = ["black", "blue", "green", "grey", "orange", "pink", "red", "yellow"]
+		# Default Image Sprite is Blue
+		img = "../view/char/actor-civilian-blue.png"
+		# Loop Through Colors
+		# If it is in the current colors then change to that sprite and break loop
+		for aColor in currentColors:
+			if aColor == color:
+				img = "../view/char/actor-civilian-" + color + ".png"
+				break 
+		
 		# Call parent class (Actor) contructor
 		super(Actor, self).__init__(locX, locY, img)
 		
-		# Data members
+		# Previous Data Members
 		self.speed = 1
-		self.isMoving = True
-		self.direction = LEFT
+		self.isMoving = False
+		self.direction = RIGHT
 		
 	def render(self, screen):
 		# Update Location
-		self.rect.x += self.speed
-		if self.direction == LEFT:
+		if self.getDirection == LEFT:
 			self.moveLeft()
 		else:
-			self.moveRight(800)
+			# Assuming RIGHT
+			# Get X,Y of Screen Size
+			x, y = screen.get_size()
+			self.moveRight(x)
 		# Render as Normal
 		super(Actor, self).render(screen)
+		
+class CivilianAI(Civilian):
+	"""
+	An independent and movable NPC class.
+	This civilian will walk or look around based on its set mood
+	This mood can be changed at any time and the NPC will react accordingly
+	
+	Current Moods:
+	"""
+	def __init__(self, locX, locY, color, mood):
+		# Call parent class (Civilian) contructor
+		super(Civilian, self).__init__(locX, locY, color)
