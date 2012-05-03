@@ -92,9 +92,9 @@ class World:
 			self.background_image = pygame.image.load(img).convert()
 			printDebug("Background Image Set.")
 			
-	def addSprite(self):
+	def testSprite(self):
 		"""Add a Sample Sprite to the World"""
-		player = Civilian(50, 170, "red")
+		player = Civilian(50, 170, "blue")
 		self.sprites.add(player)
 	
 	def run(self):
@@ -137,6 +137,6 @@ if __name__ == "__main__":
 	world1.setTitle("Hello World")
 	world1.loadBackground("../view/level/factory-background.png")
 	# Add Sprites
-	world1.addSprite()
+	world1.testSprite()
 	# Run World
 	world1.run()

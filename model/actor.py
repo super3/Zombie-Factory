@@ -80,13 +80,19 @@ class Actor(Block):
 	def go(self):
 		self.isMoving = True
 		
-	# Image Method
+	# Image Methods
 	def flip(self):
 		self.image = pygame.transform.flip(self.image, 1, 0)
 		if self.direction == LEFT:
 			self.direction = RIGHT
 		else:
 			self.direction = LEFT
+	def flipLeft(self):
+		if self.direction != LEFT:
+			self.flip()
+	def flipRight(self):
+		if self.direciton != RIGHT:
+			self.flip()
 			
 	# Accessors
 	def getSpeed(self):
@@ -135,7 +141,7 @@ class Civilian(Actor):
 		
 		# Previous Data Members
 		self.speed = 1
-		self.isMoving = False
+		self.isMoving = True
 		self.direction = RIGHT
 		
 	def render(self, screen):
@@ -149,7 +155,8 @@ class Civilian(Actor):
 			self.moveRight(x)
 		# Render as Normal
 		super(Actor, self).render(screen)
-		
+	
+# Class Does Not Work	
 class CivilianAI(Civilian):
 	"""
 	An independent and movable NPC class.
@@ -157,7 +164,21 @@ class CivilianAI(Civilian):
 	This mood can be changed at any time and the NPC will react accordingly
 	
 	Current Moods:
+	WALK_LEFT -- Will walk aimlessly left
+	WALK_RIGHT -- Will walk aimlessly right
 	"""
-	def __init__(self, locX, locY, color, mood):
+	def __init__(self, locX, locY, color):
 		# Call parent class (Civilian) contructor
 		super(Civilian, self).__init__(locX, locY, color)
+		
+		# New Data Members
+		self.mood = "WALK_LEFT"
+	def render(self, screen):
+		if self.mood == "WALK_LEFT":
+			self.flipLeft()
+			self.moveLeft()
+		elif self.mood == "WAlK_RIGHT":
+			self.flipRight()
+			self.moveRight()
+			
+		super(Actor, self).render(screen)
