@@ -94,7 +94,8 @@ class World:
 			
 	def testSprite(self):
 		"""Add a Sample Sprite to the World"""
-		player = Civilian(50, 170, "blue")
+		player = Actor(50, 170, "../view/char/actor-civilian-blue.png")
+		#player = Civilian(50, 170, "blue")
 		self.sprites.add(player)
 	
 	def run(self):
