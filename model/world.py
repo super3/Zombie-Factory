@@ -12,11 +12,8 @@
 # http://creativecommons.org/licenses/by/3.0/
 # ------------------------------------------------------------
 
-# System Imports
-import pygame
-import os 
-
-# My Imports
+# Imports
+import pygame, os
 from actor import *
 
 # Print Debug Method
@@ -92,11 +89,20 @@ class World:
 			self.background_image = pygame.image.load(img).convert()
 			printDebug("Background Image Set.")
 			
-	def testSprite(self):
-		"""Add a Sample Sprite to the World"""
-		player = Actor(50, 170, "../view/char/actor-civilian-blue.png")
+	def testSprites(self):
+		"""Add a Sample Sprites to the World"""
+		
+		# Add a Box
+		boxUnit = Block(50, 180, "../view/static/wood-box.png")
+		self.sprites.add(boxUnit)
+		
+		# Add an Actor
+		actorUnit = Actor(50, 170, "../view/char/actor-civilian-blue.png")
+		self.sprites.add(actorUnit)
+		
 		#player = Civilian(50, 170, "blue")
-		self.sprites.add(player)
+		#self.sprites.add(player)
+		
 	
 	def run(self):
 		# Main Game Loop
@@ -130,14 +136,14 @@ class World:
 		printDebug("PyGame Exit.")
 		pygame.quit()
 		
-# Unit tests go here
+# Unit Tests
 if __name__ == "__main__":
 	# Initialize World
 	world1 = World(800, 200)
 	# Window Settings
-	world1.setTitle("Hello World")
+	world1.setTitle("World Test")
 	world1.loadBackground("../view/level/factory-background.png")
-	# Add Sprites
-	world1.testSprite()
+	# Add a Sprite
+	world1.testSprites()
 	# Run World
 	world1.run()

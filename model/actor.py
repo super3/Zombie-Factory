@@ -32,11 +32,18 @@ class Block(pygame.sprite.Sprite):
 	Basic PyGame Sprite Class.
 	Pretty much every sprite should be derived from this.
 	Static/immovable objects should use this class directly.
+	
+	Data members:
+	image -- Contains the sprite image (usually imported as a .PNG)
+			 Will later be expanded as an array with multiple image
+			 so it can support animation
+	rect.x -- Coordinate X of the sprite
+	rect.y -- Coordinate Y of the sprite
 	"""
 	def __init__(self, locX, locY, img):
 		# Call the parent class (Sprite) constructor 
 		pygame.sprite.Sprite.__init__(self)
-		# Create an image
+		# Create an image and remove background
 		self.image = pygame.image.load(img).convert()
 		self.image.set_colorkey(white)
 		# Set bounds
@@ -60,7 +67,6 @@ class Actor(Block):
 	def __init__(self, locX, locY, img):
 		# Call parent class (Block) contructor
 		super(Block, self).__init__(locX, locY, img)
-		
 		# "Abstract" Data members
 		self.speed = 1
 		self.isMoving = True
@@ -93,22 +99,6 @@ class Actor(Block):
 	def flipRight(self):
 		if self.direciton != RIGHT:
 			self.flip()
-			
-	# Accessors
-	def getSpeed(self):
-		return self.speed
-	def getIsMoving(self):
-		return self.isMoving
-	def getDirection(self):
-		return self.direction
-	
-	# Mutators
-	def setSpeed(self, speed):
-		self.speed = speed
-	def setIsMoving(self, moving):
-		self.isMoving = moving
-	def setDirection(self, direction):
-		self.direction = direction
 			
 class Civilian(Actor):
 	"""
@@ -182,3 +172,12 @@ class CivilianAI(Civilian):
 			self.moveRight()
 			
 		super(Actor, self).render(screen)
+		
+# Unit Tests
+if __name__ == "__main__":
+	# Start PyGame
+	pygame.init()
+	# Block Tests
+	blockUnit = Block(50, 180, "../view/static/wood-box.png")
+	# Actor Tests
+	actorUnit = Actor(50, 170, "../view/char/actor-civilian-blue.png")
