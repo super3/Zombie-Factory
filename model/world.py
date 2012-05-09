@@ -93,16 +93,20 @@ class World:
 		"""Add a Sample Sprites to the World"""
 		
 		# Add a Box
-		boxUnit = Block(50, 180, "../view/static/wood-box.png")
+		boxUnit = Block(150, 180, "../view/static/wood-box.png")
 		self.sprites.add(boxUnit)
 		
-		# Add an Actor
-		actorUnit = Actor(50, 170, "../view/char/actor-civilian-blue.png")
+		# Add a Actor
+		actorUnit = Actor(20, 170, "../view/char/actor-civilian-green.png")
 		self.sprites.add(actorUnit)
 		
-		#player = Civilian(50, 170, "blue")
-		#self.sprites.add(player)
+		# Add a Civilian
+		civilianUnit = Civilian(50, 170, "red")
+		self.sprites.add(civilianUnit)
 		
+		# Add a Civilian AI
+		civilianAIUnit = CivilianAI(100, 170, "blue")
+		self.sprites.add(civilianAIUnit)	
 	
 	def run(self):
 		# Main Game Loop

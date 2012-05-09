@@ -66,7 +66,7 @@ class Actor(Block):
 	"""
 	def __init__(self, locX, locY, img):
 		# Call parent class (Block) contructor
-		super(Block, self).__init__(locX, locY, img)
+		super(Actor, self).__init__(locX, locY, img)
 		# "Abstract" Data members
 		self.speed = 1
 		self.isMoving = True
@@ -125,9 +125,9 @@ class Civilian(Actor):
 			if aColor == color:
 				img = "../view/char/actor-civilian-" + color + ".png"
 				break 
-		
+		print(str(img))
 		# Call parent class (Actor) contructor
-		super(Actor, self).__init__(locX, locY, img)
+		super(Civilian, self).__init__(locX, locY, img)
 		
 		# Previous Data Members
 		self.speed = 1
@@ -136,7 +136,7 @@ class Civilian(Actor):
 		
 	def render(self, screen):
 		# Update Location
-		if self.getDirection == LEFT:
+		if self.direction == LEFT:
 			self.moveLeft()
 		else:
 			# Assuming RIGHT
@@ -159,7 +159,7 @@ class CivilianAI(Civilian):
 	"""
 	def __init__(self, locX, locY, color):
 		# Call parent class (Civilian) contructor
-		super(Civilian, self).__init__(locX, locY, color)
+		super(CivilianAI, self).__init__(locX, locY, color)
 		
 		# New Data Members
 		self.mood = "WALK_LEFT"
@@ -172,12 +172,3 @@ class CivilianAI(Civilian):
 			self.moveRight()
 			
 		super(Actor, self).render(screen)
-		
-# Unit Tests
-if __name__ == "__main__":
-	# Start PyGame
-	pygame.init()
-	# Block Tests
-	blockUnit = Block(50, 180, "../view/static/wood-box.png")
-	# Actor Tests
-	actorUnit = Actor(50, 170, "../view/char/actor-civilian-blue.png")
