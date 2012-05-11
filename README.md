@@ -16,12 +16,9 @@ It was created to test the functionatly of PyGame, and to play around with Pytho
 Feel free to use the code you find in the files, but please give a link back the project webpage.
 The font.py file is not my work, but is part a font test, so don't use it without correct attribution. 
 
-Folders and Files
+Folders
 -------
-* /assets - Contains art source files, as well as concepts. All of these are .PSD files.
+* /assets - Contains art source files, as well as concepts. Most of these are .PSD files.
 * /model - Various classes for the game. 
 * /view - All the art files(.png format) or view based source code.
-* blocks.py - All the current classes for the game.
-* font.py - Someone elses python file for displaying text on the screen in pygame.
-* helper.py - Some helper functions that don't really fit in anything else.
-* main.py - Main source file for the game. Run this to make it work.
+* /old_code - Previous version of Zombie Factory, and Python files used for reference. 

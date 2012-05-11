@@ -13,19 +13,8 @@
 # ------------------------------------------------------------
 
 # System Imports
-import pygame
-import os
-
-# Define Basic Colors
-black = [0, 0 ,0]
-white = [255, 255, 255]
-blue = [ 0, 0 , 255]
-green = [ 0, 255, 0]
-red = [255, 0, 0]
-
-# Fake Enums
-RIGHT = 1
-LEFT = 2
+import pygame, os
+from model.helper import *
 
 class Block(pygame.sprite.Sprite):
 	"""
@@ -45,7 +34,7 @@ class Block(pygame.sprite.Sprite):
 		pygame.sprite.Sprite.__init__(self)
 		# Create an image and remove background
 		self.image = pygame.image.load(img).convert()
-		self.image.set_colorkey(white)
+		self.image.set_colorkey(WHITE)
 		# Set bounds
 		self.rect = self.image.get_rect()
 		# Set draw location
@@ -118,14 +107,13 @@ class Civilian(Actor):
 		# Please update this list when new sprites are available
 		currentColors = ["black", "blue", "green", "grey", "orange", "pink", "red", "yellow"]
 		# Default Image Sprite is Blue
-		img = "../view/char/actor-civilian-blue.png"
+		img = "view/char/actor-civilian-blue.png"
 		# Loop Through Colors
 		# If it is in the current colors then change to that sprite and break loop
 		for aColor in currentColors:
 			if aColor == color:
-				img = "../view/char/actor-civilian-" + color + ".png"
+				img = "view/char/actor-civilian-" + color + ".png"
 				break 
-		print(str(img))
 		# Call parent class (Actor) contructor
 		super(Civilian, self).__init__(locX, locY, img)
 		
@@ -154,21 +142,36 @@ class CivilianAI(Civilian):
 	This mood can be changed at any time and the NPC will react accordingly
 	
 	Current Moods:
-	WALK_LEFT -- Will walk aimlessly left
-	WALK_RIGHT -- Will walk aimlessly right
+	STOP -- Stop moving
+	LOOK_LEFT -- Look left
+	LOOK_RIGHT - Look right
+	WALK_LEFT -- Walk aimlessly left
+	WALK_RIGHT -- Walk aimlessly right
 	"""
 	def __init__(self, locX, locY, color):
 		# Call parent class (Civilian) contructor
 		super(CivilianAI, self).__init__(locX, locY, color)
 		
 		# New Data Members
-		self.mood = "WALK_LEFT"
+		self.mood = "STOP"
+		self.count = 0
 	def render(self, screen):
-		if self.mood == "WALK_LEFT":
+		if self.mood == "STOP":
+			pass
+		elif self.mood == "LOOK_LEFT":
+			self.flipLeft()
+		elif self.mood == "LOOK_RIGHT":
+			self.flipRight()
+		elif self.mood == "WALK_LEFT":
 			self.flipLeft()
 			self.moveLeft()
-		elif self.mood == "WAlK_RIGHT":
+		elif self.mood == "WALK_RIGHT":
 			self.flipRight()
 			self.moveRight()
+		else:
+			printDebug("Unrecognized Mood. Switching to STOP.")
+			self.mood = "STOP"
 			
 		super(Actor, self).render(screen)
+	def setMood(self, mood):
+		self.mood = mood
