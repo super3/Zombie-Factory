@@ -64,11 +64,11 @@ class Actor(Block):
 	# Movement Methods
 	def moveLeft(self):
 		# If Actor is After the Left Window Bound and Is Allowed to Move
-		if self.rect.x > 0 and self.isMoving:
+		if self.isMoving:
 			self.rect.x -= self.speed
-	def moveRight(self, screenX):
+	def moveRight(self):
 		# If Actor is Before the Right Window Bound and Is Allowed to Move
-		if self.rect.x < screenX - self.image.get_width() and self.isMoving: 
+		if self.isMoving: 
 			self.rect.x += self.speed
 	def stop(self):
 		self.isMoving = False
@@ -86,7 +86,7 @@ class Actor(Block):
 		if self.direction != LEFT:
 			self.flip()
 	def flipRight(self):
-		if self.direciton != RIGHT:
+		if self.direction != RIGHT:
 			self.flip()
 			
 class Civilian(Actor):
@@ -128,9 +128,7 @@ class Civilian(Actor):
 			self.moveLeft()
 		else:
 			# Assuming RIGHT
-			# Get X,Y of Screen Size
-			x, y = screen.get_size()
-			self.moveRight(x)
+			self.moveRight()
 		# Render as Normal
 		super(Actor, self).render(screen)
 	
@@ -148,12 +146,12 @@ class CivilianAI(Civilian):
 	WALK_LEFT -- Walk aimlessly left
 	WALK_RIGHT -- Walk aimlessly right
 	"""
-	def __init__(self, locX, locY, color):
+	def __init__(self, locX, locY, color, mood = "STOP"):
 		# Call parent class (Civilian) contructor
 		super(CivilianAI, self).__init__(locX, locY, color)
 		
 		# New Data Members
-		self.mood = "STOP"
+		self.mood = mood
 		self.count = 0
 	def render(self, screen):
 		if self.mood == "STOP":
