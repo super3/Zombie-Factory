@@ -33,8 +33,9 @@ class Block(pygame.sprite.Sprite):
 		# Call the parent class (Sprite) constructor 
 		pygame.sprite.Sprite.__init__(self)
 		# Create an image and remove background
-		self.image = pygame.image.load(img).convert()
-		self.image.set_colorkey(WHITE)
+		tmpImage = pygame.image.load(img)
+		# Sets .PNG transparency to PyGame transparency
+		self.image = tmpImage.convert_alpha() 
 		# Set bounds
 		self.rect = self.image.get_rect()
 		# Set draw location
