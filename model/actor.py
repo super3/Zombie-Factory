@@ -146,6 +146,7 @@ class CivilianAI(Civilian):
 	LOOK_RIGHT - Look right
 	WALK_LEFT -- Walk aimlessly left
 	WALK_RIGHT -- Walk aimlessly right
+	PACE (arg) -- Will pace the specified number of pixels 
 	"""
 	def __init__(self, locX, locY, color, mood = "STOP"):
 		# Call parent class (Civilian) contructor
@@ -167,6 +168,47 @@ class CivilianAI(Civilian):
 		elif self.mood == "WALK_RIGHT":
 			self.flipRight()
 			self.moveRight()
+		elif self.mood == "PACE_WORLD":
+			x, y = screen.get_size()
+
+			# Turn Function 
+			if self.direction == LEFT and self.rect.x <= 0: 
+				self.flipRight()
+				self.moveRight()
+			elif self.direction == RIGHT and self.rect.x >= x:
+				self.flipLeft()
+				self.moveLeft()	
+					
+			# Go Function
+			if self.direction == LEFT: 
+				self.moveLeft()				
+			else:
+				self.moveRight()
+		# Note: This mood accepts an argument so it simply cuts off the part of 
+		# the mood var that it thinks the mood is. Then the rest of the string
+		# is counted as the argument.
+		elif self.mood[:4] == "PACE":
+			# Grab Argument
+			arg = self.mood[4:].strip()
+			
+			# Turn Function
+			if self.count >= int(arg):
+				self.count = 0
+				if self.direction == LEFT: 
+					self.flipRight()
+					self.moveRight()
+				else:
+					self.flipLeft()
+					self.moveLeft()	
+					
+			# Go Function
+			if self.direction == LEFT: 
+				self.moveLeft()				
+			else:
+				self.moveRight()
+									
+			# Increment
+			self.count += 1
 		else:
 			printDebug("Unrecognized Mood. Switching to STOP.")
 			self.mood = "STOP"

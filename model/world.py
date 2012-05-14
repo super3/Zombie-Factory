@@ -99,6 +99,19 @@ class World:
 			self.background_image = pygame.image.load(img).convert()
 			printDebug("Background Image Set.")
 			
+	def loadMusic(self, src):
+		"""Sets the background music for the world. Src argument is the path
+		   of the sound file to load. This file can be WAV, MP3, or MIDI format."""
+		# Seems to crash with view/sound/backgound2.mpg, perhaps because of the 
+		# cover art that seems to be embedded into the .mp3
+		if not os.path.exists( src ):
+			printDebug("Music Load Failed!")
+			printDebug("Could not find file: " + str(src))
+		else:
+			printDebug("Background Music Started.")
+			pygame.mixer.music.load(src)
+			pygame.mixer.music.play(-1, 0.0)
+			
 	def moveRight(self, speed = 1):
 		"""Move the view window right by the speed (default 1px)"""
 		if self.backgroundX > -(self.worldX - self.sizeX):
@@ -112,34 +125,9 @@ class World:
 			self.backgroundX += speed
 			for sprite in self.sprites:
 				sprite.rect.x += speed
-			
-	def testSprites(self):
-		"""Add a Sample Sprites to the World"""
-		# Add a Box
-		boxUnit = Block(150, 180, "view/static/wood-box.png")
-		self.sprites.add(boxUnit)
-		
-		# Add a Actor
-		actorUnit = Actor(20, 170, "view/char/actor-civilian-green.png")
-		self.sprites.add(actorUnit)
-		
-		# Add a Civilian
-		civilianUnit = Civilian(50, 170, "red")
-		self.sprites.add(civilianUnit)
-		
-		# Add a Civilian AI
-		civilianAIUnit = CivilianAI(100, 170, "blue")
-		self.sprites.add(civilianAIUnit)
 	
-	def testSprites2(self):
-		"""Add a Sample Sprites to the World"""
-		for i in range(40):
-			rand = -(random.randint(1, 1600))
-			currentColors = ["black", "blue", "green", "grey", "orange", "pink", "red", "yellow"]
-			civilianAIUnit = CivilianAI(rand, 344, random.choice(currentColors))
-			civilianAIUnit.setMood("WALK_RIGHT")
-			civilianAIUnit.speed = random.randint(1, 2)
-			self.sprites.add(civilianAIUnit)		
+	def preLoadSprite(self, sprite):
+		self.sprites.add(sprite)
 	
 	def run(self):
 		# Main Game Loop
