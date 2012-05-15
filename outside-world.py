@@ -4,7 +4,8 @@ from model.actor import *
 
 # Initialize World
 world1 = World(800, 400, 1600, 400)
-# Window Settings
+
+# World Settings
 world1.setTitle("World Test")
 world1.setIcon("view/system/icon.png")
 world1.loadBackground("view/level/outside-background.png")

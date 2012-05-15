@@ -26,6 +26,7 @@ class Block(pygame.sprite.Sprite):
 	image -- Contains the sprite image (usually imported as a .PNG)
 			 Will later be expanded as an array with multiple image
 			 so it can support animation
+	rect -- Contains the bounds of the loaded image
 	rect.x -- Coordinate X of the sprite
 	rect.y -- Coordinate Y of the sprite
 	"""
@@ -118,11 +119,6 @@ class Civilian(Actor):
 		# Call parent class (Actor) contructor
 		super(Civilian, self).__init__(locX, locY, img)
 		
-		# Previous Data Members
-		self.speed = 1
-		self.isMoving = True
-		self.direction = RIGHT
-		
 	def render(self, screen):
 		# Update Location
 		if self.direction == LEFT:
@@ -133,7 +129,6 @@ class Civilian(Actor):
 		# Render as Normal
 		super(Actor, self).render(screen)
 	
-# Class Does Not Work	
 class CivilianAI(Civilian):
 	"""
 	An independent and movable NPC class.
@@ -146,7 +141,9 @@ class CivilianAI(Civilian):
 	LOOK_RIGHT - Look right
 	WALK_LEFT -- Walk aimlessly left
 	WALK_RIGHT -- Walk aimlessly right
-	PACE (arg) -- Will pace the specified number of pixels 
+	PACE_WORLD -- Walk to the end of the world and then turn around and walk 
+				  the other way
+	PACE (arg) -- Will pace the specified number of pixels
 	"""
 	def __init__(self, locX, locY, color, mood = "STOP"):
 		# Call parent class (Civilian) contructor
@@ -168,14 +165,16 @@ class CivilianAI(Civilian):
 		elif self.mood == "WALK_RIGHT":
 			self.flipRight()
 			self.moveRight()
-		elif self.mood == "PACE_WORLD":
-			x, y = screen.get_size()
+		# This is buggy. Need to implement this a diffrent way.
+		elif self.mood[:10] == "PACE_WORLD":
+			# Grab Argument
+			arg = self.mood[10:].strip()
 
 			# Turn Function 
 			if self.direction == LEFT and self.rect.x <= 0: 
 				self.flipRight()
 				self.moveRight()
-			elif self.direction == RIGHT and self.rect.x >= x:
+			elif self.direction == RIGHT and self.rect.x >= int(arg):
 				self.flipLeft()
 				self.moveLeft()	
 					
