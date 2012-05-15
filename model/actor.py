@@ -33,8 +33,14 @@ class Block(pygame.sprite.Sprite):
 	def __init__(self, locX, locY, img):
 		# Call the parent class (Sprite) constructor 
 		pygame.sprite.Sprite.__init__(self)
-		# Create an image and remove background
-		tmpImage = pygame.image.load(img)
+		
+		# Load the image, if it does not exist try to load the error image. 
+		if fileExists( img, "Block Class Image"):
+			# Create an image and remove background
+			tmpImage = pygame.image.load(img)
+		else:
+			tmpImage = pygame.image.load('view/system/error.png')
+
 		# Sets .PNG transparency to PyGame transparency
 		self.image = tmpImage.convert_alpha() 
 		# Set bounds
@@ -51,9 +57,12 @@ class Actor(Block):
 	It contains basic movement data and functions. 
 	
 	Data members:
-	speed -- The speed in pixels that the Actor moves forward with each screen draw.
-	isMoving -- Is the Actor allowed to move?
-	direction -- Can be LEFT(1) or RIGHT(2). Uses global constants to make it more readable.
+	speed -- The speed in pixels that the Actor moves forward with each screen draw
+	isMoving -- Is the Actor allowed to move
+	direction -- Can be LEFT(1) or RIGHT(2). Uses global constants to make it more readable
+
+	Note that Actor inheirts from Block, so please read the doc string for that class to see
+	the rest of the documentation for the data members.
 	"""
 	def __init__(self, locX, locY, img):
 		# Call parent class (Block) contructor
@@ -97,11 +106,15 @@ class Civilian(Actor):
 	
 	A civilian object can take on many clothes colors that is specified in the constructor
 	These colors include: black, blue, green, grey, organge, pink, red, and yellow
-	The color can not and must not be changed after creation
+	The color must not be changed after initialization.
+
+	Data Member:
+	color -- The clothes color of the Civilian. This is not to be modified, and is just for
+			 informational purposes.
 	
 	Note: In much later versions of this engine, this will become obsolete as civilian clothes
 	colors will be generated from a transparent sprite, rather than using multiple sprites with
-	diffrent colored clothes
+	different colored clothes.
 	"""
 	def __init__(self, locX, locY, color):	
 		# Check to see if color is a valid sprite color
@@ -118,16 +131,6 @@ class Civilian(Actor):
 				break 
 		# Call parent class (Actor) contructor
 		super(Civilian, self).__init__(locX, locY, img)
-		
-	def render(self, screen):
-		# Update Location
-		if self.direction == LEFT:
-			self.moveLeft()
-		else:
-			# Assuming RIGHT
-			self.moveRight()
-		# Render as Normal
-		super(Actor, self).render(screen)
 	
 class CivilianAI(Civilian):
 	"""
@@ -135,20 +138,25 @@ class CivilianAI(Civilian):
 	This civilian will walk or look around based on its set mood
 	This mood can be changed at any time and the NPC will react accordingly
 	
+	Data Members:
+	mood -- A string that represents the types of movements that that CivilianAI
+			will make. Default is "STOP".
+	count -- An int that allows the CivilianAI took keep track of the clock, and 
+			 preform repeated actions as needed. 
+
 	Current Moods:
 	STOP -- Stop moving
 	LOOK_LEFT -- Look left
 	LOOK_RIGHT - Look right
 	WALK_LEFT -- Walk aimlessly left
 	WALK_RIGHT -- Walk aimlessly right
-	PACE_WORLD -- Walk to the end of the world and then turn around and walk 
-				  the other way
-	PACE (arg) -- Will pace the specified number of pixels
+	PACE_WORLD (arg) -- Walk to the end of the world and then turn around and walk 
+				  		the other way. The (arg) is the pixel width of the world
+	PACE (arg) -- Will pace the specified number of (arg) pixels
 	"""
 	def __init__(self, locX, locY, color, mood = "STOP"):
 		# Call parent class (Civilian) contructor
 		super(CivilianAI, self).__init__(locX, locY, color)
-		
 		# New Data Members
 		self.mood = mood
 		self.count = 0

@@ -86,10 +86,7 @@ class World:
 		Note: Can only be called once after pygame.init() and before
 		somewindow = pygame.display.set_mode()
 		"""
-		if not os.path.exists( path ):
-			printDebug("Icon Load Failed!")
-			printDebug("Could not find file: " + str(path))
-		else:
+		if fileExists( path, "Icon"):
 			icon = pygame.Surface((32,32))
 			icon.set_colorkey((100,100,100)) # call that color transparent
 			rawicon = pygame.image.load(path) # load raw icon
@@ -102,10 +99,7 @@ class World:
 	def loadBackground(self, path):
 		"""Sets the PyGame background image"""
 		# First Check if the Path Exists
-		if not os.path.exists( path ):
-			printDebug("Background Image Load Failed!")
-			printDebug("Could not find file: " + str(path))
-		else:
+		if fileExists( path, "Background Image"):
 			self.background_image = pygame.image.load(path).convert()
 			printDebug("Background Image Set: '" + str(path) + "'.")
 			
@@ -114,10 +108,7 @@ class World:
 		   of the sound file to load. This file can be WAV, MP3, or MIDI format."""
 		# Seems to crash with view/sound/backgound2.mpg, perhaps because of the 
 		# cover art that seems to be embedded into the .mp3
-		if not os.path.exists( path ):
-			printDebug("Music Load Failed!")
-			printDebug("Could not find file: " + str(path))
-		else:
+		if fileExists( path, "Background Music"):
 			printDebug("Background Music Started.")
 			pygame.mixer.music.load(path)
 			pygame.mixer.music.play(-1, 0.0)

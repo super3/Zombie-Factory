@@ -12,7 +12,7 @@ world1.loadBackground("view/level/factory-background.png")
 #world1.loadMusic("view/sound/background3.mp3")
 
 # Add Sprites
-boxUnit = Block(150, 180, "view/static/wood-box-damaged.png") # Add a Box
+boxUnit = Block(150, 180, "view/static/wood-box-damagedd.png") # Add a Box
 world1.preLoadSprite(boxUnit)
 
 actorUnit = Actor(20, 170, "view/char/actor-civilian-green.png") # Add a Actor

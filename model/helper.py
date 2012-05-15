@@ -12,7 +12,8 @@
 # http://creativecommons.org/licenses/by/3.0/
 # ------------------------------------------------------------
 
-# Print Debug Method
+import os
+
 def printDebug(txt):
 	"""
 	Will simply print to console what is passed to it.
@@ -20,6 +21,13 @@ def printDebug(txt):
 	or directly into the game window without the use of a console.
 	"""
 	print(txt)
+
+def fileExists(path, errorStr):
+	if not os.path.exists( path ):
+		printDebug(errorStr + " Load Failed!")
+		printDebug("Could not find file: " + str(path))
+		return False
+	return True
 	
 # Define Basic Colors
 BLACK = [0, 0 ,0]
