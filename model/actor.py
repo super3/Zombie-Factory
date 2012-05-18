@@ -27,10 +27,10 @@ class Block(pygame.sprite.Sprite):
 			 Will later be expanded as an array with multiple image
 			 so it can support animation
 	rect -- Contains the bounds of the loaded image
-	rect.x -- Coordinate X of the sprite
-	rect.y -- Coordinate Y of the sprite
+	rect.x -- Coordinate X of the sprite (measured from the left edge)
+	rect.y -- Coordinate Y of the sprite (measured from the bottom edge initially and then as PyGame )
 	"""
-	def __init__(self, locX, locY, img):
+	def __init__(self, locX, locY, img, worldDim):
 		# Call the parent class (Sprite) constructor 
 		pygame.sprite.Sprite.__init__(self)
 		
@@ -41,13 +41,18 @@ class Block(pygame.sprite.Sprite):
 		else:
 			tmpImage = pygame.image.load('view/system/error.png')
 
+		# Takes World Dimentions
+		worldX = worldDim[0]
+		worldY = worldDim[1]
+		groundHeight = worldDim[2]
+
 		# Sets .PNG transparency to PyGame transparency
 		self.image = tmpImage.convert_alpha() 
 		# Set bounds
 		self.rect = self.image.get_rect()
 		# Set draw location
 		self.rect.x = locX
-		self.rect.y = locY
+		self.rect.y = worldY - (locY + self.rect.height) - groundHeight
 	def render(self, screen):
 		screen.blit(self.image, [self.rect.x, self.rect.y])
 
@@ -64,9 +69,9 @@ class Actor(Block):
 	Note that Actor inheirts from Block, so please read the doc string for that class to see
 	the rest of the documentation for the data members.
 	"""
-	def __init__(self, locX, locY, img):
+	def __init__(self, locX, locY, img, worldDim):
 		# Call parent class (Block) contructor
-		super(Actor, self).__init__(locX, locY, img)
+		super(Actor, self).__init__(locX, locY, img, worldDim)
 		# "Abstract" Data members
 		self.speed = 1
 		self.isMoving = True
@@ -116,7 +121,7 @@ class Civilian(Actor):
 	colors will be generated from a transparent sprite, rather than using multiple sprites with
 	different colored clothes.
 	"""
-	def __init__(self, locX, locY, color):	
+	def __init__(self, locX, locY, color, worldDim):	
 		# Check to see if color is a valid sprite color
 		# This is dependent on the sprites in /view/char/ files named actor-civilian-[color].png
 		# Please update this list when new sprites are available
@@ -130,7 +135,7 @@ class Civilian(Actor):
 				img = "view/char/actor-civilian-" + color + ".png"
 				break 
 		# Call parent class (Actor) contructor
-		super(Civilian, self).__init__(locX, locY, img)
+		super(Civilian, self).__init__(locX, locY, img, worldDim)
 	
 class CivilianAI(Civilian):
 	"""
@@ -154,9 +159,9 @@ class CivilianAI(Civilian):
 				  		the other way. The (arg) is the pixel width of the world
 	PACE (arg) -- Will pace the specified number of (arg) pixels
 	"""
-	def __init__(self, locX, locY, color, mood = "STOP"):
+	def __init__(self, locX, locY, color, worldDim, mood = "STOP"):
 		# Call parent class (Civilian) contructor
-		super(CivilianAI, self).__init__(locX, locY, color)
+		super(CivilianAI, self).__init__(locX, locY, color, worldDim)
 		# New Data Members
 		self.mood = mood
 		self.count = 0

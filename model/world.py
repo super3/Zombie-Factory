@@ -43,12 +43,13 @@ class World:
 		# Initialize Data Members
 		self.sizeX = x
 		self.sizeY = y
-		
 		self.worldX = worldX
 		self.worldY = worldY
+
 		self.background_image = None
 		self.backgroundX = 0 
 		self.backgroundY = 0
+		self.groundHeight = 0
 		
 		# Start PyGame
 		pygame.init()
@@ -96,13 +97,15 @@ class World:
 			pygame.display.set_icon(icon)
 			printDebug("Icon Set: '" + str(path) + "'.")
 		
-	def loadBackground(self, path):
+	def loadBackground(self, path, groundHeight):
 		"""Sets the PyGame background image"""
 		# First Check if the Path Exists
 		if fileExists( path, "Background Image"):
 			self.background_image = pygame.image.load(path).convert()
 			printDebug("Background Image Set: '" + str(path) + "'.")
-			
+			self.groundHeight = groundHeight
+			printDebug("Ground Height Set: " + str(groundHeight) + "px.")
+
 	def loadMusic(self, path):
 		"""Sets the background music for the world. Src argument is the path
 		   of the sound file to load. This file can be WAV, MP3, or MIDI format."""
