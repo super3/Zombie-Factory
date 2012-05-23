@@ -31,7 +31,7 @@ class Floor:
 		# Set bounds
 		self.rect = self.image.get_rect()
 
-class Building(pygame.sprite.Sprite):
+class Build(pygame.sprite.Sprite):
 	"""
 	Basic PyGame Sprite Class.
 	Pretty much every sprite should be derived from this.
@@ -73,13 +73,14 @@ class Building(pygame.sprite.Sprite):
 
 		# Draw Floor Sprites on Building Image Surface
 		tmpImage = pygame.Surface((topFloor.rect.width, buildingHeight))
+		tmpImage.set_colorkey(ALPHA)
 		tmpImage.blit(topFloor.image, [0, 0])
 		for i in range(floors):
 			tmpImage.blit(middleFloor.image, [0, (topFloor.rect.height + middleFloor.rect.height * i)])
 		tmpImage.blit(bottomFloor.image, [0, (topFloor.rect.height + middleFloor.rect.height * floors)])
 
 		# Sets .PNG transparency to PyGame transparency
-		self.image = tmpImage.convert_alpha() 
+		self.image = tmpImage
 		# Set bounds
 		self.rect = self.image.get_rect()
 		# Set draw location

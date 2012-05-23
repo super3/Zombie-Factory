@@ -16,14 +16,14 @@ worldDim = [world1.worldX, world1.worldY, world1.groundHeight]
 
 # Add Background Sprites
 for i in range(6):
-	buildingUnit = Building( 
+	buildingUnit = Build( 
 		(50+(250*i)), 0, (random.randint(1, 4)),
 		"view/static/build-top.png",
 		"view/static/build-middle.png",
 		"view/static/build-bottom.png",
 		worldDim
 		)
-	world1.preLoadSprite(buildingUnit)
+	world1.blitBackground(buildingUnit)
 
 # Add Character Sprites
 for i in range(40):

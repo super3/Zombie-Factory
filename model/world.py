@@ -96,6 +96,9 @@ class World:
 					icon.set_at((i,j), rawicon.get_at((i,j)))
 			pygame.display.set_icon(icon)
 			printDebug("Icon Set: '" + str(path) + "'.")
+
+	def blitBackground(self, sprite):
+		self.background_image.blit( sprite.image, [sprite.rect.x, sprite.rect.y] )
 		
 	def loadBackground(self, path, groundHeight):
 		"""Sets the PyGame background image"""
