@@ -22,12 +22,10 @@ class Floor:
 	"""
 	def __init__(self, img):
 		if fileExists( img, "Floor Class Image"):
-			tmpImage = pygame.image.load(img)
+			self.image  = pygame.image.load(img)
 		else:
-			tmpImage = pygame.image.load('view/system/error.png')
-
-		# Sets .PNG transparency to PyGame transparency
-		self.image = tmpImage.convert_alpha() 
+			self.image  = pygame.image.load('view/system/error.png')
+			
 		# Set bounds
 		self.rect = self.image.get_rect()
 

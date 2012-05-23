@@ -1,6 +1,7 @@
 # Imports
 from model.world import *
 from model.actor import *
+from model.civilian import *
 from model.build import *
 
 # Initialize World
@@ -27,10 +28,11 @@ for i in range(6):
 
 # Add Character Sprites
 for i in range(40):
-	rand = -(random.randint(1, 1600))
+	rand = random.randint(1, 1600)
 	currentColors = ["black", "blue", "green", "grey", "orange", "pink", "red", "yellow"]
+	currentMoods = ["STOP", "LOOK_LEFT", "LOOK_RIGHT", "WALK_LEFT", "WALK_RIGHT"]
 	civilianAIUnit = CivilianAI(rand, 0, random.choice(currentColors), worldDim)
-	civilianAIUnit.setMood("WALK_RIGHT")
+	civilianAIUnit.setMood(random.choice(currentMoods))
 	civilianAIUnit.speed = random.randint(1, 2)
 	world1.preLoadSprite(civilianAIUnit)
 

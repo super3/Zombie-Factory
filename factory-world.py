@@ -1,6 +1,7 @@
 # Imports
 from model.world import *
 from model.actor import *
+from model.civilian import *
 
 # Initialize World
 world1 = World(800, 200, 800, 200)
@@ -25,7 +26,7 @@ civilianUnit = Civilian(50, 0, "red", worldDim) # Add a Civilian
 world1.preLoadSprite(civilianUnit)
 
 civilianAIUnit = CivilianAI(100, 0, "blue", worldDim) # Add a Civilian AI
-civilianAIUnit.setMood("PACE_WORLD " + str(world1.worldX))
+civilianAIUnit.setMood("PACE 50 ")
 civilianAIUnit.speed = 1
 world1.preLoadSprite(civilianAIUnit)
 
