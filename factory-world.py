@@ -16,7 +16,7 @@ world1.loadBackground("view/level/factory-background.png", 0)
 worldDim = [world1.worldX, world1.worldY, world1.groundHeight]
 
 # Add Sprites
-boxUnit = Block(150, 0, "view/static/wood-box-damagedd.png", worldDim) # Add a Box
+boxUnit = Block(150, 0, "view/static/wood-box-damagedd.png", worldDim) # Attempt to Add a Box
 world1.preLoadSprite(boxUnit)
 
 actorUnit = Actor(20, 0, "view/char/actor-civilian-green.png", worldDim) # Add a Actor

@@ -18,7 +18,7 @@ worldDim = [world1.worldX, world1.worldY, world1.groundHeight]
 # Add Background Sprites
 for i in range(6):
 	buildingUnit = Build( 
-		(50+(250*i)), 0, (random.randint(1, 4)),
+		(50+(250*i)), 0, (random.randint(1, 4)), # Spawn Buildings 250px apart with a 50px start point
 		"view/static/build-top.png",
 		"view/static/build-middle.png",
 		"view/static/build-bottom.png",
@@ -29,6 +29,7 @@ for i in range(6):
 # Add Character Sprites
 for i in range(40):
 	rand = random.randint(1, 1600)
+	# Better way to do both of these. Perhaps random color and random mood methods
 	currentColors = ["black", "blue", "green", "grey", "orange", "pink", "red", "yellow"]
 	currentMoods = ["STOP", "LOOK_LEFT", "LOOK_RIGHT", "WALK_LEFT", "WALK_RIGHT"]
 	civilianAIUnit = CivilianAI(rand, 0, random.choice(currentColors), worldDim)
