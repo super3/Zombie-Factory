@@ -19,7 +19,8 @@ from model.helper import *
 # World Class
 class World:
 	"""An extendable class for the creation of a PyGame 2D world."""
-	def __init__(self, x, y, worldX, worldY):
+	def __init__(self, x, y, worldX, worldY, backgroundColor = BLACK,
+				 fps = 30, scrollSpeed = 10):
 		"""
 		When initialized it will create a world of the specified dimensions
 		and launch the PyGame window. This will be an empty PyGame window,
@@ -50,6 +51,11 @@ class World:
 		self.backgroundX = 0 
 		self.backgroundY = 0
 		self.groundHeight = 0
+
+		# Basically Some Render Settings
+		self.backgroundColor = backgroundColor # BLACK
+		self.fps = fps # 30
+		self.scrollSpeed = scrollSpeed # 10
 		
 		# Start PyGame
 		pygame.init()
@@ -68,6 +74,7 @@ class World:
 		printDebug("World Initialized.")
 		printDebug("Screen Size: " + str(x) + "x" + str(y) + ".")
 		printDebug("World Size: " + str(worldX) + "x" + str(worldY) + ".")
+		printDebug("FPS: " + str(self.fps) + ".")
 	
 	def setTitle(self, title):
 		"""Sets the PyGame window title"""
@@ -77,7 +84,7 @@ class World:
 		printDebug("Title Set: '" + str(title) + "'.")
 		
 	def setIcon(self, path):
-		"""
+		""" WORLD
 		Pre-Condition: The icon must be 32x32 pixels
 		
 		Grey (100,100,100) will be alpha channel
@@ -156,12 +163,12 @@ class World:
 			
 			# Move View Window
 			if key[pygame.K_RIGHT]:
-				self.moveRight(10) # Magic int!
+				self.moveRight(self.scrollSpeed) 
 			elif key[pygame.K_LEFT]:
-				self.moveLeft(10)
+				self.moveLeft(self.scrollSpeed)
 				
 			# Clear the Screen
-			self.screen.fill(WHITE) # Should this be a world var?
+			self.screen.fill(self.backgroundColor)
 			
 			# Try to Draw Background
 			if self.background_image != None: 
@@ -175,7 +182,7 @@ class World:
 			pygame.display.flip()
 			
 			# Limit FPS of Game Loop
-			self.clock.tick(30)
+			self.clock.tick(self.fps)
 		# End Main Game Loop
 			
 		# Exit Program
