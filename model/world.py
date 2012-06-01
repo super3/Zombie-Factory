@@ -105,6 +105,7 @@ class World:
 			printDebug("Icon Set: '" + str(path) + "'.")
 
 	def blitBackground(self, sprite):
+		sprite = self.findSpriteY(sprite)
 		self.background_image.blit( sprite.image, [sprite.rect.x, sprite.rect.y] )
 		
 	def loadBackground(self, path, groundHeight):
@@ -139,11 +140,18 @@ class World:
 			self.backgroundX += speed
 			for sprite in self.sprites:
 				sprite.rect.x += speed
+
+	def findSpriteY(self, sprite):
+		"""Let the the World correctly place the sprite on the ground."""
+		tmpY = self.worldY - (sprite.rect.y + sprite.rect.height) - self.groundHeight
+		sprite.rect.y = tmpY
+		return sprite
 	
 	def preLoadSprite(self, sprite):
 		"""Load a sprite into the main RenderPlain."""
 		# TODO: Need to have some sort of error collection, and an added argument so 
 		# it can be added to the correct RenderPlain.
+		sprite = self.findSpriteY(sprite)
 		self.sprites.add(sprite)
 	
 	def run(self):

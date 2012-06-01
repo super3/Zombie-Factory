@@ -52,14 +52,9 @@ class Build(pygame.sprite.Sprite):
 	rect.x -- Coordinate X of the sprite
 	rect.y -- Coordinate Y of the sprite
 	"""
-	def __init__(self, x, y, floors, imgTop, imgMiddle, imgBottom, worldDim):
+	def __init__(self, x, y, floors, imgTop, imgMiddle, imgBottom):
 		# Call the parent class (Sprite) constructor 
 		pygame.sprite.Sprite.__init__(self)
-
-		# Takes World Dimentions
-		worldX = worldDim[0]
-		worldY = worldDim[1]
-		groundHeight = worldDim[2]
 		
 		# Create Floor Objects
 		topFloor = Floor(imgTop)
@@ -83,6 +78,6 @@ class Build(pygame.sprite.Sprite):
 		self.rect = self.image.get_rect()
 		# Set draw location
 		self.rect.x = x
-		self.rect.y = worldY - (y  + self.rect.height) - groundHeight
+		self.rect.y = y
 	def render(self, screen):
 		screen.blit(self.image, [self.rect.x, self.rect.y])

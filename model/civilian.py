@@ -35,7 +35,7 @@ class Civilian(Actor):
 	colors will be generated from a transparent sprite, rather than using multiple sprites with
 	different colored clothes.
 	"""
-	def __init__(self, locX, locY, color, worldDim):	
+	def __init__(self, locX, locY, color):	
 		# Check to see if color is a valid sprite color
 		# This is dependent on the sprites in /view/char/ files named actor-civilian-[color].png
 		# Please update this list when new sprites are available
@@ -49,7 +49,7 @@ class Civilian(Actor):
 				img = "view/char/actor-civilian-" + color + ".png"
 				break 
 		# Call parent class (Actor) contructor
-		super(Civilian, self).__init__(locX, locY, img, worldDim)
+		super(Civilian, self).__init__(locX, locY, img)
 	
 class CivilianAI(Civilian):
 	"""
@@ -71,9 +71,9 @@ class CivilianAI(Civilian):
 	WALK_RIGHT -- Walk aimlessly right
 	PACE (arg) -- Will pace the specified number of (arg) pixels
 	"""
-	def __init__(self, locX, locY, color, worldDim, mood = "STOP"):
+	def __init__(self, locX, locY, color, mood = "STOP"):
 		# Call parent class (Civilian) contructor
-		super(CivilianAI, self).__init__(locX, locY, color, worldDim)
+		super(CivilianAI, self).__init__(locX, locY, color)
 		# New Data Members
 		self.mood = mood
 		self.count = 0

@@ -30,7 +30,7 @@ class Block(pygame.sprite.Sprite):
 	rect.x -- Coordinate X of the sprite (measured from the left edge)
 	rect.y -- Coordinate Y of the sprite (measured from the bottom edge initially and then as PyGame )
 	"""
-	def __init__(self, locX, locY, img, worldDim):
+	def __init__(self, locX, locY, img):
 		# Call the parent class (Sprite) constructor 
 		pygame.sprite.Sprite.__init__(self)
 		
@@ -41,18 +41,13 @@ class Block(pygame.sprite.Sprite):
 		else:
 			tmpImage = pygame.image.load('view/system/error.png')
 
-		# Takes World Dimentions
-		worldX = worldDim[0]
-		worldY = worldDim[1]
-		groundHeight = worldDim[2]
-
 		# Sets .PNG transparency to PyGame transparency
 		self.image = tmpImage.convert_alpha() 
 		# Set bounds
 		self.rect = self.image.get_rect()
 		# Set draw location
 		self.rect.x = locX
-		self.rect.y = worldY - (locY + self.rect.height) - groundHeight
+		self.rect.y = locY
 	def render(self, screen):
 		screen.blit(self.image, [self.rect.x, self.rect.y])
 
@@ -69,9 +64,9 @@ class Actor(Block):
 	Note that Actor inheirts from Block, so please read the doc string for that class to see
 	the rest of the documentation for the data members.
 	"""
-	def __init__(self, locX, locY, img, worldDim):
+	def __init__(self, locX, locY, img):
 		# Call parent class (Block) contructor
-		super(Actor, self).__init__(locX, locY, img, worldDim)
+		super(Actor, self).__init__(locX, locY, img)
 
 		#Data members
 		self.speed = 1

@@ -21,8 +21,7 @@ for i in range(6):
 		(50+(250*i)), 0, (random.randint(1, 4)), # Spawn Buildings 250px apart with a 50px start point
 		"view/static/build-top.png",
 		"view/static/build-middle.png",
-		"view/static/build-bottom.png",
-		worldDim
+		"view/static/build-bottom.png"
 		)
 	world1.blitBackground(buildingUnit)
 
@@ -32,7 +31,7 @@ for i in range(40):
 	# Better way to do both of these. Perhaps random color and random mood methods
 	currentColors = ["black", "blue", "green", "grey", "orange", "pink", "red", "yellow"]
 	currentMoods = ["STOP", "LOOK_LEFT", "LOOK_RIGHT", "WALK_LEFT", "WALK_RIGHT"]
-	civilianAIUnit = CivilianAI(rand, 0, random.choice(currentColors), worldDim)
+	civilianAIUnit = CivilianAI(rand, 0, random.choice(currentColors))
 	civilianAIUnit.setMood(random.choice(currentMoods))
 	civilianAIUnit.speed = random.randint(1, 2)
 	world1.preLoadSprite(civilianAIUnit)
