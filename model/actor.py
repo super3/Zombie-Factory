@@ -12,44 +12,9 @@
 # http://creativecommons.org/licenses/by/3.0/
 # ------------------------------------------------------------
 
-# System Imports
 import pygame, os
+from model.blocks import *
 from model.helper import *
-
-class Block(pygame.sprite.Sprite):
-	"""
-	Basic PyGame Sprite Class.
-	Pretty much every sprite should be derived from this.
-	Static/immovable objects should use this class directly.
-	
-	Data members:
-	image -- Contains the sprite image (usually imported as a .PNG)
-			 Will later be expanded as an array with multiple image
-			 so it can support animation
-	rect -- Contains the bounds of the loaded image
-	rect.x -- Coordinate X of the sprite (measured from the left edge)
-	rect.y -- Coordinate Y of the sprite (measured from the bottom edge initially and then as PyGame )
-	"""
-	def __init__(self, locX, locY, img):
-		# Call the parent class (Sprite) constructor 
-		pygame.sprite.Sprite.__init__(self)
-		
-		# Load the image, if it does not exist try to load the error image. 
-		if fileExists( img, "Block Class Image"):
-			# Create an image and remove background
-			tmpImage = pygame.image.load(img)
-		else:
-			tmpImage = pygame.image.load('view/system/error.png')
-
-		# Sets .PNG transparency to PyGame transparency
-		self.image = tmpImage.convert_alpha() 
-		# Set bounds
-		self.rect = self.image.get_rect()
-		# Set draw location
-		self.rect.x = locX
-		self.rect.y = locY
-	def render(self, screen):
-		screen.blit(self.image, [self.rect.x, self.rect.y])
 
 class Actor(Block):
 	"""

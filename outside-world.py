@@ -12,9 +12,6 @@ world1.setTitle("World Test")
 world1.setIcon("view/system/icon.png")
 world1.loadBackground("view/level/outside-background.png", 26)
 
-# World Dimensions to Sprites
-worldDim = [world1.worldX, world1.worldY, world1.groundHeight]
-
 # Add Background Sprites
 for i in range(6):
 	buildingUnit = Build( 
