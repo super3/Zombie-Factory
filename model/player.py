@@ -47,3 +47,5 @@ class Player(Actor):
 	# Specials Methods
 	def toggleLaser(self):
 		self.laserEnabled = not self.laserEnabled
+	def getLaser(self):
+		return self.laserEnabled

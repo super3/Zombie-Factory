@@ -22,8 +22,8 @@ playerUnit = Player(50, 0, "view/char/actor-player-gun.png")
 world1.loadPlayer(playerUnit)
 
 # Add Cursor
-#cursorUnit = Block(0, 0, "view/system/crosshair.png")
-#world1.loadCursor(cursorUnit)
+cursorUnit = Block(0, 0, "view/system/crosshair.png")
+world1.loadCursor(cursorUnit)
 
 # Run World
 world1.run()

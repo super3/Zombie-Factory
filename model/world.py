@@ -190,8 +190,12 @@ class World:
 				
 			# Move Player if Exists
 			elif key[pygame.K_a] and self.player != None:
+				if self.cursor == None:
+					self.player.flipLeft()
 				self.player.moveLeft()
 			elif key[pygame.K_d] and self.player != None:
+				if self.cursor == None:
+					self.player.flipRight()
 				self.player.moveRight()
 
 			# Clear the Screen
@@ -205,9 +209,17 @@ class World:
 			for sprite in self.sprites:
 				sprite.render(self.screen)
 
-			# Draw Player
 			if self.player != None:
+				# Draw Player
 				self.player.render(self.screen)
+
+				# Warning Magic Ints
+				if self.cursor != None:
+					# Display Laser
+					if self.player.getLaser()and self.player.getDirection() == LEFT:
+						pygame.draw.line(self.screen, RED, [self.player.rect.x, self.player.rect.y+11], [pos[0], pos[1]], 1)
+					elif self.player.getLaser():
+						pygame.draw.line(self.screen, RED, [self.player.rect.x+24, self.player.rect.y+10], [pos[0], pos[1]], 1)
 
 			# Draw Cursor
 			if self.cursor != None:
