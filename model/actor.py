@@ -29,28 +29,40 @@ class Actor(Block):
 	Note that Actor inheirts from Block, so please read the doc string for that class to see
 	the rest of the documentation for the data members.
 	"""
-	def __init__(self, locX, locY, img):
+	def __init__(self, locX, locY, img, speed = 1, health = 1):
 		# Call parent class (Block) contructor
 		super(Actor, self).__init__(locX, locY, img)
 
 		#Data members
-		self.speed = 1
+		self.speed = speed
 		self.isMoving = True
 		self.direction = RIGHT
+
+		self.maxHealth = health
+		self.health = health
 		
 	# Movement Methods
 	def moveLeft(self):
-		# If Actor is After the Left Window Bound and Is Allowed to Move
 		if self.isMoving:
 			self.rect.x -= self.speed
 	def moveRight(self):
-		# If Actor is Before the Right Window Bound and Is Allowed to Move
 		if self.isMoving: 
 			self.rect.x += self.speed
 	def stop(self):
 		self.isMoving = False
 	def go(self):
 		self.isMoving = True
+
+	# Health Methods
+	def heal(self, points):
+		if (self.health + points) >= self.maxHealth:
+			self.health = self.maxHealth
+		else:
+			self.health += points
+	def damage(self, points):
+		self.health -= points
+	def isAlive(self):
+		return self.health > 0
 		
 	# Image Methods
 	def flip(self):
@@ -65,3 +77,5 @@ class Actor(Block):
 	def flipRight(self):
 		if self.direction != RIGHT:
 			self.flip()
+	def getDirection(self):
+		return self.direction

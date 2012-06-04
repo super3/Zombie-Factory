@@ -2,6 +2,7 @@
 from model.world import *
 from model.actor import *
 from model.civilian import *
+from model.player import *
 from model.build import *
 
 # Initialize World
@@ -31,7 +32,7 @@ for i in range(40):
 	civilianAIUnit = CivilianAI(rand, 0, random.choice(currentColors))
 	civilianAIUnit.setMood(random.choice(currentMoods))
 	civilianAIUnit.speed = random.randint(1, 2)
-	world1.preLoadSprite(civilianAIUnit)
+	world1.loadSprite(civilianAIUnit)
 
 # Run World
 world1.run()

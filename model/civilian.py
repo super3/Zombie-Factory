@@ -78,8 +78,12 @@ class CivilianAI(Civilian):
 		self.mood = mood
 		self.count = 0
 	def render(self, screen):
+		# All the moods involve movement except the STOP
+		# mood so we should assume that the Civilian is 
+		# trying to move unless other told
+		self.go()
 		if self.mood == "STOP":
-			pass
+			self.stop()
 		elif self.mood == "LOOK_LEFT":
 			self.flipLeft()
 		elif self.mood == "LOOK_RIGHT":

@@ -24,7 +24,7 @@ class World:
 		"""
 		When initialized it will create a world of the specified dimensions
 		and launch the PyGame window. This will be an empty PyGame window,
-		as no content has been added to it. You may then preload sprites, and
+		as no content has been added to it. You may then load sprites, and
 		then run the world.
 	    
 	    Data members:
@@ -51,6 +51,10 @@ class World:
 		self.backgroundX = 0 
 		self.backgroundY = 0
 		self.groundHeight = 0
+
+		# Sprite Placeholders
+		self.player = None
+		self.cursor = None
 
 		# Basically Some Render Settings
 		self.backgroundColor = backgroundColor # BLACK
@@ -96,7 +100,7 @@ class World:
 		"""
 		if fileExists( path, "Icon"):
 			icon = pygame.Surface((32,32))
-			icon.set_colorkey((100,100,100)) # call that color transparent
+			icon.set_colorkey(ALPHA) # call that color transparent
 			rawicon = pygame.image.load(path) # load raw icon
 			for i in range(0,32):
 				for j in range(0,32):
@@ -147,12 +151,19 @@ class World:
 		sprite.rect.y = tmpY
 		return sprite
 	
-	def preLoadSprite(self, sprite):
+	def loadSprite(self, sprite):
 		"""Load a sprite into the main RenderPlain."""
 		# TODO: Need to have some sort of error collection, and an added argument so 
 		# it can be added to the correct RenderPlain.
 		sprite = self.findSpriteY(sprite)
 		self.sprites.add(sprite)
+
+	def loadPlayer(self, sprite):
+		sprite = self.findSpriteY(sprite)
+		self.player = sprite
+
+	def loadCursor(self, sprite):
+		self.cursor = sprite
 	
 	def run(self):
 		"""Contains the main game loop for the world, which will basically draw everything
@@ -166,8 +177,10 @@ class World:
 					printDebug("PyGame.Quit Called.")
 					self.done = True
 						
-			# Check for Keys
-			key=pygame.key.get_pressed()
+			# Get Keys
+			key = pygame.key.get_pressed()
+			# Get Mouse
+			pos = pygame.mouse.get_pos()
 			
 			# Move View Window
 			if key[pygame.K_RIGHT]:
@@ -175,6 +188,12 @@ class World:
 			elif key[pygame.K_LEFT]:
 				self.moveLeft(self.scrollSpeed)
 				
+			# Move Player if Exists
+			elif key[pygame.K_a] and self.player != None:
+				self.player.moveLeft()
+			elif key[pygame.K_d] and self.player != None:
+				self.player.moveRight()
+
 			# Clear the Screen
 			self.screen.fill(self.backgroundColor)
 			
@@ -185,6 +204,26 @@ class World:
 			# Draw all Sprites
 			for sprite in self.sprites:
 				sprite.render(self.screen)
+
+			# Draw Player
+			if self.player != None:
+				self.player.render(self.screen)
+
+			# Draw Cursor
+			if self.cursor != None:
+				# Disable Regular Cursor
+				pygame.mouse.set_visible(False)
+				# Set the mouse position to the cursor block
+				self.cursor.rect.x = pos[0] - 5 # Magic Int!
+				self.cursor.rect.y = pos[1] - 5 # Magic Int!
+				if (self.cursor.rect.x >= self.player.rect.x) and (self.player.getDirection() == LEFT):
+					self.player.flip()
+				elif (self.cursor.rect.x < self.player.rect.x) and (self.player.getDirection() == RIGHT):
+					self.player.flip()
+				# Draw Cursor
+				self.cursor.render(self.screen)
+			else:
+				pygame.mouse.set_visible(True)
 			
 			# Update Display
 			pygame.display.flip()
