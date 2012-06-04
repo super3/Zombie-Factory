@@ -15,7 +15,6 @@
 
 # System Imports
 import pygame, random, os
-os
 from model.actor import *
 from model.helper import *
 
@@ -78,12 +77,8 @@ class CivilianAI(Civilian):
 		self.mood = mood
 		self.count = 0
 	def render(self, screen):
-		# All the moods involve movement except the STOP
-		# mood so we should assume that the Civilian is 
-		# trying to move unless other told
-		self.go()
 		if self.mood == "STOP":
-			self.stop()
+			pass
 		elif self.mood == "LOOK_LEFT":
 			self.flipLeft()
 		elif self.mood == "LOOK_RIGHT":

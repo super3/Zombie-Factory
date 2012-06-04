@@ -25,7 +25,7 @@ class Player(Actor):
 		self.isFire = False
 		self.maxAmmo = 10
 		self.ammo = 10
-		self.hit = 1
+		self.attack = 1
 
 		# Specials
 		self.laserEnabled = True
@@ -41,8 +41,10 @@ class Player(Actor):
 		return self.ammo == 0
 	def setAmmo(self, rounds):
 		self.maxAmmo = rounds
-	def setHit(self, hit):
-		self.hit = hit
+	def setAttack(self, attack):
+		self.attack = attack
+	def getAttack(self):
+		return self.attack
 
 	# Specials Methods
 	def toggleLaser(self):
