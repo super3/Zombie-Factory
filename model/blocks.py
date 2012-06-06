@@ -13,7 +13,7 @@
 # ------------------------------------------------------------
 
 # System Imports
-import pygame, os
+import pygame
 from model.helper import *
 
 class Block(pygame.sprite.Sprite):

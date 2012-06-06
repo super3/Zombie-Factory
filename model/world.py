@@ -13,7 +13,7 @@
 # ------------------------------------------------------------
 
 # Imports
-import pygame, sys, os, random
+import pygame, sys
 from model.helper import *
 
 # World Class
@@ -71,8 +71,9 @@ class World:
 		self.done = False
 		self.clock = pygame.time.Clock()
 		
-		# Create RenderPlain
+		# Create RenderPlains
 		self.sprites = pygame.sprite.RenderPlain()
+		self.enemies = pygame.sprite.RenderPlain()
 		
 		# Debug Messages
 		printDebug("World Initialized.")
@@ -88,7 +89,7 @@ class World:
 		printDebug("Title Set: '" + str(title) + "'.")
 		
 	def setIcon(self, path):
-		""" WORLD
+		"""
 		Pre-Condition: The icon must be 32x32 pixels
 		
 		Grey (100,100,100) will be alpha channel
@@ -109,6 +110,7 @@ class World:
 			printDebug("Icon Set: '" + str(path) + "'.")
 
 	def blitBackground(self, sprite):
+		"""Draw something on the background image."""
 		sprite = self.findSpriteY(sprite)
 		self.background_image.blit( sprite.image, [sprite.rect.x, sprite.rect.y] )
 		
@@ -159,15 +161,37 @@ class World:
 		self.sprites.add(sprite)
 
 	def loadPlayer(self, sprite):
+		"""Add player sprite."""
 		sprite = self.findSpriteY(sprite)
 		self.player = sprite
 
+	def loadEnemy(self, sprite):
+		"""Add enemy sprite."""
+		sprite = self.findSpriteY(sprite)
+		self.enemies.add(sprite)
+
 	def loadCursor(self, sprite):
+		"""Add cursor sprite."""
 		self.cursor = sprite
 	
 	def run(self):
-		"""Contains the main game loop for the world, which will basically draw everything
-		to the screen for the specified FPS."""
+		"""
+		Contains the main game loop for the world, which will basically draw everything
+		to the screen for the specified FPS.
+
+		Execution Order:
+			Check for QUIT
+			Get Keys and Mouse Position
+			Move Camera
+			Move Player
+			Clear the Screen
+			Draw Background
+			Draw Sprites
+			Draw Player
+			Draw Cursor 
+			Display
+			Limit FPS
+		"""
 		# Main Game Loop
 		while self.done == False:			
 			# Check for Events
@@ -207,6 +231,12 @@ class World:
 				
 			# Draw all Sprites
 			for sprite in self.sprites:
+				sprite.render(self.screen)
+
+			# Draw all Enemies
+			for sprite in self.enemies:
+				if self.player != None:
+					sprite.setObjX(self.player.rect.x)
 				sprite.render(self.screen)
 
 			if self.player != None:

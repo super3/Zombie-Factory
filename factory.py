@@ -1,6 +1,6 @@
 # Imports
 from model.world import *
-from model.actor import *
+from model.blocks import *
 from model.civilian import *
 from model.player import *
 from model.enemy import *
@@ -23,12 +23,12 @@ playerUnit = Player(50, 0, "view/char/actor-player-gun.png")
 world1.loadPlayer(playerUnit)
 
 # Add Cursor
-#cursorUnit = Block(0, 0, "view/system/crosshair.png")
-#world1.loadCursor(cursorUnit)
+cursorUnit = Block(0, 0, "view/system/crosshair.png")
+world1.loadCursor(cursorUnit)
 
 # Add Enemy Sprite
-enemyUnit = Enemy(300, 0, "view/char/actor-zombie.png", 1, 5, 1)
-world1.loadSprite(enemyUnit)
+enemyUnit = Enemy(300, 0, "view/char/actor-zombie.png", 1, 5, 1, 9)
+world1.loadEnemy(enemyUnit)
 
 # Run World
 world1.run()

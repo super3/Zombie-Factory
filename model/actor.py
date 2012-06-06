@@ -12,7 +12,7 @@
 # http://creativecommons.org/licenses/by/3.0/
 # ------------------------------------------------------------
 
-import pygame, os
+import pygame
 from model.blocks import *
 from model.helper import *
 

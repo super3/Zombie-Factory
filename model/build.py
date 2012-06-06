@@ -13,13 +13,11 @@
 # ------------------------------------------------------------
 
 # System Imports
-import pygame, os
+import pygame
 from model.helper import *
 
 class Floor:
-	"""
-	Contains the image and image data for a floor.
-	"""
+	"""Contains the image and image data for a floor."""
 	def __init__(self, img):
 		if fileExists( img, "Floor Class Image"):
 			self.image  = pygame.image.load(img)

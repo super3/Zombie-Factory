@@ -23,6 +23,7 @@ def printDebug(txt):
 	print(txt)
 
 def fileExists(path, errorStr):
+	"""Simply checks if a file exists. Prints an error if not."""
 	if not os.path.exists( path ):
 		printDebug(errorStr + " Load Failed!")
 		printDebug("Could not find file: " + str(path))
@@ -37,6 +38,6 @@ GREEN = [ 0, 255, 0]
 RED = [255, 0, 0]
 ALPHA = [255, 0, 238]
 
-# Fake Constants
+# Direction Constants
 RIGHT = 1
 LEFT = 2

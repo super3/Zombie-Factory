@@ -14,51 +14,25 @@
 # ------------------------------------------------------------
 
 # System Imports
-import pygame, random, os
+import pygame, random
 from model.actor import *
 from model.helper import *
-
+	
 class Civilian(Actor):
 	"""
-	Civilian class is the standard NPC class. 
-	
-	A civilian object can take on many clothes colors that is specified in the constructor
-	These colors include: black, blue, green, grey, organge, pink, red, and yellow
-	The color must not be changed after initialization.
-
-	Data Member:
-	color -- The clothes color of the Civilian. This is not to be modified, and is just for
-			 informational purposes.
-	
-	Note: In much later versions of this engine, this will become obsolete as civilian clothes
-	colors will be generated from a transparent sprite, rather than using multiple sprites with
-	different colored clothes.
-	"""
-	def __init__(self, locX, locY, color):	
-		# Check to see if color is a valid sprite color
-		# This is dependent on the sprites in /view/char/ files named actor-civilian-[color].png
-		# Please update this list when new sprites are available
-		currentColors = ["black", "blue", "green", "grey", "orange", "pink", "red", "yellow"]
-		# Default Image Sprite is Blue
-		img = "view/char/actor-civilian-blue.png"
-		# Loop Through Colors
-		# If it is in the current colors then change to that sprite and break loop
-		for aColor in currentColors:
-			if aColor == color:
-				img = "view/char/actor-civilian-" + color + ".png"
-				break 
-		# Call parent class (Actor) contructor
-		super(Civilian, self).__init__(locX, locY, img)
-	
-class CivilianAI(Civilian):
-	"""
-	An independent and movable NPC class.
+	An independent and movable NPC class (Based on Actor)
 	This civilian will walk or look around based on its set mood
 	This mood can be changed at any time and the NPC will react accordingly
+
+	Arguments:
+	color -- The clothes color of the Civilian. This is not to be modified, and is just for
+			 informational purposes.
+	mood -- See data member.
 	
 	Data Members:
 	mood -- A string that represents the types of movements that that CivilianAI
 			will make. Default is "STOP".
+	random -- A bool that if true will randomly cycle through a list of moods.
 	count -- An int that allows the CivilianAI took keep track of the clock, and 
 			 preform repeated actions as needed. 
 
@@ -69,14 +43,22 @@ class CivilianAI(Civilian):
 	WALK_LEFT -- Walk aimlessly left
 	WALK_RIGHT -- Walk aimlessly right
 	PACE (arg) -- Will pace the specified number of (arg) pixels
+	RANDOM -- Will randomly cycle through a set of moods
 	"""
-	def __init__(self, locX, locY, color, mood = "STOP"):
-		# Call parent class (Civilian) contructor
-		super(CivilianAI, self).__init__(locX, locY, color)
+	def __init__(self, locX, locY, color, mood = "STOP", isRandom = False):
+		path = "view/char/actor-civilian-" + color + ".png"
+		if fileExists( path, "Civilian Class Image"):
+			img = path
+
 		# New Data Members
 		self.mood = mood
 		self.count = 0
+		self.isRandom = isRandom
+
+		# Call parent class (Civilian) contructor
+		super(Civilian, self).__init__(locX, locY, img)
 	def render(self, screen):
+		"""Update sprite based on mood."""
 		if self.mood == "STOP":
 			pass
 		elif self.mood == "LOOK_LEFT":
@@ -89,8 +71,8 @@ class CivilianAI(Civilian):
 		elif self.mood == "WALK_RIGHT":
 			self.flipRight()
 			self.moveRight()
-		# This is buggy. Need to implement this a diffrent way.
-		elif self.mood[:4] == "PACE":
+		# This is buggy. Need to implement this a different way.
+		elif len(self.mood) > 4 and self.mood[:4] == "PACE":
 			# Grab Argument
 			arg = self.mood[4:].strip()
 			
@@ -117,7 +99,7 @@ class CivilianAI(Civilian):
 			self.mood = "STOP"
 
 		# Randomize Mood
-		if random.randint(1,100) == 42:
+		if self.isRandom and random.randint(1,100) == 42: # answer to life
 			currentMoods = ["STOP", "LOOK_LEFT", "LOOK_RIGHT", "WALK_LEFT", "WALK_RIGHT"]
 			self.mood = random.choice(currentMoods)
 	
